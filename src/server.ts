@@ -1,15 +1,15 @@
 import fastify from 'fastify'
-import { knex } from './database'
+
 import { env } from './env'
+import { transactionRoutes } from './routes/transactions'
 
 // Inicia um server com fastify
 const app = fastify()
 
-// Cria um endpoint
-app.get('/hello', async () => {
-  const transactions = await knex('transactions').select('*')
-
-  return transactions
+// Aqui são definidos os plugins
+// É bem semelhante ao builder.Services.Add... que é usado no .NET
+app.register(transactionRoutes, {
+  prefix: 'transactions',
 })
 
 // Define a porta
